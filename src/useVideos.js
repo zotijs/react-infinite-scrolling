@@ -29,21 +29,22 @@ const useVideos = ({term, token = ''}) => {
         if (!isBottom) {
             return;
         }
-
+        
         fetchMoreVideos(term, pageToken);
       }, [isBottom, term, pageToken]);
 
       const fetchMoreVideos = async (term, token) => {
+        //stop requests until scroll bottom is reached again
+        setIsBotom(false);
+
         try {
             const response = await youtube.get('/search', {params: {q: term, pageToken: token}});
-            setVideos(videos => [...videos, response.data.items]);
+            setVideos(videos => [...videos, ...response.data.items]);
             setPageToken(response.data.nextPageToken);
         }
         catch (error){
             setErrors(error.response.data.error);
         }
-
-        setIsBotom(false);
       }
 
     return { videos, errors };

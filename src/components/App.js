@@ -7,7 +7,7 @@ import ErrorsList from '../components/ErrorsList';
 const App = () => {
     const { videos, errors } = useVideos({term: '', token: '' });
 
-    if (!videos) {
+    if (!videos || videos.length === 0) {
         return (
             <div className="ui active dimmer">
                 <div className="ui text loader">Wait for it..</div>
